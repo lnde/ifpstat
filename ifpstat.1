@@ -1,0 +1,110 @@
+.Dd $Mdocdate: September 26 2020$
+.Dt IFPSTAT 1
+.Os
+.Sh NAME
+.Nm ifpstat
+.Nd report network interface statistics based on pcap-filter(7).
+.Sh SYNOPSIS
+.Nm
+.Op Fl BbCDhKMmnptv
+.Op Fl c Ar count
+.Op Fl d Ar direction
+.Op Fl i Ar interface
+.Op Fl w Ar wait
+.Op expression
+.Sh DESCRIPTION
+.Nm
+reports bandwidth and packet rate of a network interface to stdout.
+It's possible to control the reported interface statistics by
+specifying an optional pcap-filter(7)
+.Ar expression.
+.Pp
+If no
+.Ar interface
+is specified
+.Nm
+will use pcap to find a default interface and print the selected interface
+to stderr.
+.Pp
+The default bandwidth output is in KiBps and the default packet rate
+is in packets per second (pps).
+.Pp
+The options are as follows:
+.Bl -tag -width -ident
+.It Fl B
+Bandwidth in bytes/bits per second instead of kilo bit/bytes.
+.It Fl b
+Bandwidth in bits per second instead of bytes.
+.It Fl C
+Output as Comma-Separated-Values (CSV).
+.It Fl c Ar count
+Exit after
+.Ar count
+number of reports.
+.It Fl D
+Print packet drop statistics from
+.Ar pcap_stats(3).
+See
+.Ar CAVEATS
+section for details.
+.It Fl d Ar direction
+Report only the specific traffic
+.Ar direction.
+.Bl -tag -width -compact
+.It Fl d Cm in
+Incoming.
+.It Fl d Cm out
+Outgoing.
+.It Fl d Cm any
+Both incoming and outgoing (default).
+.El
+.It Fl h
+Usage.
+.It Fl i Ar interface
+Specify which interface to monitor.
+.It Fl K
+Packet rate in thousand packets per second (Kpps).
+.It Fl M
+Packet rate in million packets per second (Mpps).
+.It Fl m
+Bandwidth in mega bit/bytes per second.
+.It Fl n
+Don't print the header.
+.It Fl p
+Set interface in promiscuous mode.
+.It Fl t
+Include local time stamp for each report. The default format is human readable
+but it's in RFC3339 format when the output is CSV.
+.It Fl v
+Print version and exit.
+.It Fl w Ar wait
+Wait
+.Ar wait
+seconds between each report. If
+.Ar wait
+is 0
+.Nm
+prints the report upon receiving signal USR1. Any following USR1 signals and
+the report is based on data between the last two signals.
+.El
+.Sh EXAMPLES
+Show http/https traffic in 5 seconds interval on interface en0.
+.Bd -literal -offset ident
+# ifpstat -tw 5 -i en0 port http or port https
+timestamp		     KiBps	       pps
+2020-07-01 12:00:00	    558.36	       525
+2020-07-01 12:00:05	   5194.69	      4589
+2020-07-01 12:00:10	   3413.73	      2594
+2020-07-01 12:00:15	    324.20	       251
+.Ed
+.Sh SEE ALSO
+pcap-filter(7),
+pcap_stats(3)
+.Sh AUTHORS
+.An Andreas Lundin <lunde@dreamhosted.se>, 2008-2020
+.Sh CAVEATS
+The
+.Fl D
+option is based on pcap_stats(3) which isn't very reliable. You should check
+if it's supported on your plattform. The drops counter is from ps_drop and
+ifdrop is from ps_ifdrop.
