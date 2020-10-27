@@ -15,29 +15,30 @@ is in packets per second (pps).
 # Usage
 	ifpstat	[-BbCDhKMmnptv] [-c count] [-d in|out|any] [-i interface]
 		[-w delay] [expression]
-	 -B				Bandwidth in bytes/bits per second instead of
-	 				kilo bit/bytes.
-	 -b				Bandwidth in bits per second instead of bytes.
-	 -C				Output as Comma-Separated-Values (CSV).
-	 -c count		Exit after count number of reports.
-	 -D				Print packet drop statistics from pcap_stats(3). See CAVEATS
-	 				section for details.
-	 -d direction	Report only specified direction. Accepted values are 'in',
-	 				'out' and 'any'. Default is 'any'.
-	 -h				Usage.
-	 -i	interface	Specify which interface to monitor.
-	 -K				Packet rate in thousand packets per second (Kpps).
-	 -m				Bandwidth in mega bit/bytes per second.
-	 -M				Packet rate in million packets per second (Mpps).
-	 -n				Don't print the header.
-	 -p				Set interface in promiscuous mode.
-	 -t				Include local time stamp for each report. The default format is
-					human readable but in RFC3339 format if the output is CSV.
-	 -v				Print version and exit.
-	 -w seconds		Wait wait seconds between each report. If wait is 0
-	 				ifpstat prints the report upon receiving signal USR1. Any
-	 				following USR1 signals and the report is based on data
-	 				between the last two signals.
+	-B		Bandwidth in bytes/bits per second instead of
+			kilo bit/bytes.
+	-b		Bandwidth in bits per second instead of bytes.
+	-C		Output as Comma-Separated-Values (CSV).
+	-c count	Exit after count number of reports.
+	-D		Print packet drop statistics from pcap_stats(3).
+			See CAVEATS section for details.
+	-d direction	Report only specified direction. Accepted values are
+			'in', 'out' and 'any'. Default is 'any'.
+	-h		Usage.
+	-i interface	Specify which interface to monitor.
+	-K		Packet rate in thousand packets per second (Kpps).
+	-m		Bandwidth in mega bit/bytes per second.
+	-M		Packet rate in million packets per second (Mpps).
+	-n		Don't print the header.
+	-p		Set interface in promiscuous mode.
+	-t		Include local time stamp for each report. The default
+			format is human readable but in RFC3339 format if the
+			output is CSV.
+	-v		Print version and exit.
+	-w seconds	Wait wait seconds between each report. If wait is 0
+			ifpstat prints the report upon receiving signal USR1.
+			Any following USR1 signals and the report is based on
+			data between the last two signals.
 
 # Example
 Show http/https traffic in 5 seconds interval on interface en0.
