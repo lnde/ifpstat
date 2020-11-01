@@ -71,5 +71,5 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 # CAVEATS
 The **-D** option is based on pcap_stats(3) which isn't very reliable. You
-should check if it's supported on your plattform. The drops counter is
+should check if it's supported on your platform. The drops counter is
 from ps_drop and ifdrop is from ps_ifdrop.

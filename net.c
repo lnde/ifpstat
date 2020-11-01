@@ -108,7 +108,7 @@ net_init_pcap(const char *device, const char *filter,
 	/*
 	 * Only set the direction if the user specifies 'in' or 'out'
 	 * as pcap_setdirection() isn't supported on all
-	 * plattforms. The default seems to be PCAP_D_INOUT if the
+	 * platforms. The default seems to be PCAP_D_INOUT if the
 	 * platform doesn't support it.
 	 *
 	 * pcap_setdirection() MUST be called AFTER pcap_activiate()
