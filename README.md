@@ -12,6 +12,20 @@ interface and print the selected interface to stderr.
 The default bandwidth output is in KiBps and the default packet rate
 is in packets per second (pps).
 
+# Getting started
+
+## Requirements
+**ifpstat** depends on `libpcap` which should be available on most systems.
+
+It has been tested on Linux, OpenBSD and macOS.
+
+## Installation
+You need a C compiler and libpcap available. The `Makefile` is simple enough
+for anyone to read and understand. `SBINDIR` and `MANDIR` controls where
+the binary and manual page are installed.
+
+Compiling is as easy as `make` and `make install` to install system wide.
+
 # Usage
 	ifpstat	[-BbCDhKMmnptv] [-c count] [-d in|out|any] [-i interface]
 		[-w delay] [expression]
@@ -55,7 +69,7 @@ Show http/https traffic in 5 seconds interval on interface en0.
 [pcap_stats(3)](https://www.tcpdump.org/manpages/pcap_stats.3pcap.html)
 
 # License
-Copyright (c) 2008-2020 Andreas Lundin, &lt;lunde@dreamhosted.se&gt;
+Copyright (c) 2008-2021 Andreas Lundin, &lt;lunde@dreamhosted.se&gt;
 
 Permission to use, copy, modify, and distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
