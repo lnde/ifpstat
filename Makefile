@@ -1,7 +1,7 @@
 SBINDIR=/usr/local/sbin
 MANDIR=/usr/local/share/man/man1
 
-VERSION=1.0
+VERSION=1.0.1
 
 CC=cc
 CFLAGS=-O2 -W -Wall -Wno-unused-parameter
