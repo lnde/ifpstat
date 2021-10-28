@@ -316,7 +316,7 @@ concat_argv(char * const *argv, const char *sep)
 		len += strlen(argv[i]) + 1;
 	}
 
-	buf = malloc(len);
+	buf = calloc(len, sizeof(char));
 	if (buf == NULL)
 		return NULL;
 
