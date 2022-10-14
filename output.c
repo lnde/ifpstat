@@ -35,36 +35,6 @@ extern int64_t 	 cntPackets;	/* counter for matched packets  */
 extern time_t	 periodStart;	/* timestamp for start of measurement period */
 
 static size_t	 str_rfc3339(char *, const size_t, const time_t *);
-static int	 get_utc_offset(const time_t *);
-
-/*
- * get_utc_offset returns the localtime() offset to UTC in seconds. A
- * positive number means it's east of UTC, a negative number means it's
- * west of UTC.
- */
-static int
-get_utc_offset(const time_t *ts)
-{
-	struct tm	*tp;
-	int 		 hours, minutes;
-	int 		 lhours, lminutes;
-	int		 uhours, uminutes;
-
-	/* tp points to a static struct that is overwritten by
-	 * subsequent calls */
-	tp = localtime(ts);
-	lhours = tp->tm_hour;
-	lminutes = tp->tm_min;
-
-	tp = gmtime(ts);
-	uhours = tp->tm_hour;
-	uminutes = tp->tm_min;
-
-	hours = lhours - uhours;
-	minutes = lminutes - uminutes;
-
-	return (hours*60*60) + (minutes*60);
-}
 
 void
 print_drops(stats_drops_t *drops)
@@ -249,11 +219,18 @@ str_rfc3339(char *buf, const size_t bufSize, const time_t *ts)
 	struct tm	*tp;
 	char 		 tsbuf[32];
 	char 		 utcOffsetBuf[8];
-	int		 offset, hours, minutes;
+	long		 offset;
+	int 		 hours, minutes;
 	size_t		 ret;
 	char		 c;
 
-	offset = get_utc_offset(ts);
+	tp = localtime(ts);
+	if (tp == NULL) {
+		fprintf(stderr, "Error: Failed to get local time");
+		exit(EXIT_FAILURE);
+	}
+
+	offset = tp->tm_gmtoff;
 	if (offset == 0) {
 		/* rfc3339 - 2006-01-02T15:04:05Z */
 		return strftime(buf, bufSize, "%Y-%m-%dT%TZ", localtime(ts));
@@ -263,6 +240,7 @@ str_rfc3339(char *buf, const size_t bufSize, const time_t *ts)
 		c = '-';
 		offset = offset * -1;
 	}
+
 	/* include timezone offset - rfc3339 - 2006-01-02T15:04:05+06:00 */
 	hours = offset / 3600;
 	minutes = (offset / 60) % 60;
@@ -270,12 +248,6 @@ str_rfc3339(char *buf, const size_t bufSize, const time_t *ts)
 	    "%c%.2d:%.2d", c, hours, minutes);
 	if (ret >= sizeof(utcOffsetBuf))
 		return 0;
-
-	tp = localtime(ts);
-	if (tp == NULL) {
-		fprintf(stderr, "Error: Failed to get local time");
-		exit(EXIT_FAILURE);
-	}
 
 	ret = strftime(tsbuf, sizeof(tsbuf), "%Y-%m-%dT%T", tp);
 	if (ret == 0)
