@@ -29,7 +29,7 @@
 
 #include "ifpstat.h"
 
-#define VERSION "1.0.1"
+#define VERSION "1.0.2"
 
 /* if strlcat isn't defined include our own copy */
 #ifndef strlcat
