@@ -14,8 +14,8 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef __IFPSTAT_H__
-#define __IFPSTAT_H__
+#ifndef IFPSTAT_H
+#define IFPSTAT_H
 
 typedef struct stats_drops {
 	u_int	oldKernDrops;	/* kernel drops from last announcement */
