@@ -5,10 +5,8 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-
     strategy:
       fail-fast: false
-
       matrix:
         os: [ubuntu-latest, ubuntu-22.04, macOS-14, macOS-15]
         compiler: [gcc, clang]
@@ -17,7 +15,6 @@ jobs:
             compiler: gcc
           - os: macOS-15
             compiler: gcc
-
     steps:
       - uses: actions/checkout@v4
 
@@ -34,4 +31,28 @@ jobs:
       - name: Execute
         run: /usr/local/sbin/ifpstat -v
 
+  rocky-build:
+    runs-on: ubuntu-latest
+    container:
+      image: rockylinux/rockylinux:9
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: dnf groupinstall -y 'Development Tools'
+
+      - name: Enable CRB repository
+        run: dnf config-manager -y --set-enabled crb
+
+      - name: Install libpcap-devel
+        run: dnf install -y libpcap-devel
+
+      - name: Compile
+        run: make
+
+      - name: Install
+        run: make install
+
+      - name: Execute
+        run: /usr/local/sbin/ifpstat -v
 ...
